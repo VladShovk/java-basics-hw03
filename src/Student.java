@@ -1,16 +1,25 @@
 public class Student {
-  int rating;
+
+
+  private int rating;
   private String name;
+  public static int count;
+  private static int sumRating;
 
-  // TODO implement Student class according to the instructions provided in the README.md file
-
-  public Student(String name) {
-    //TODO initialize name
+  public Student(String name, int rating) {
+    this.name = name;
+    this.rating = rating;
+    count++;
+    sumRating += rating;
   }
 
-  public static double getAvgRating() {
-    // TODO return average rating of all students
-    return 0;
+  public Student(String name) {
+    this.name = name;
+    count++;
+  }
+
+  public Student() {
+    count++;
   }
 
   public String getName() {
@@ -18,7 +27,7 @@ public class Student {
   }
 
   public void setName(String name) {
-    // TODO set student's name
+    this.name = name;
   }
 
   public int getRating() {
@@ -26,25 +35,54 @@ public class Student {
   }
 
   public void setRating(int rating) {
-    // TODO initialize rating;
+    this.rating = rating;
+    sumRating += rating;
   }
 
   public boolean betterStudent(Student student) {
-    // TODO return the result of comparing this.student's rating with the student's rating
+    if (this.rating > getAvgRating()){
+      return true;
+    }
     return false;
   }
 
   public void changeRating(int rating) {
-    // TODO change this student's rating and average rating of all students
+    sumRating -= this.rating;
+    setRating(rating);
   }
 
   public static void removeStudent(Student student) {
-    // TODO remove student
+    sumRating -= student.rating;
+    count--;
+    student = null;
   }
 
   @Override
   public String toString() {
-    // TODO return String with name and rating of this student
-    return "";
+    return this.name + " " + this.rating;
+  }
+
+  public static double getAvgRating() {
+    double sum = sumRating;
+    double number = count;
+    double avg = sum / number;
+    if (count > 0) {
+      return avg;
+    } else {
+      return 0.0;
+    }
+  }
+
+  public static void main(String[] args) {
+    Student student1 = new Student("Dmytro");
+    Student student2 = new Student("Pavlo");
+    Student student3 = new Student("Mykhailo", 40);
+
+    student1.setRating(50);
+    student1.setRating(30);
+    System.out.println(getAvgRating());
+
+    student3.changeRating(20);
+    System.out.println(getAvgRating());
   }
 }
